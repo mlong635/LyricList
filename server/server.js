@@ -12,8 +12,8 @@ router.get('/', function(req, res){
 app.use(bodyParser.json());
 app.use(router);
 
-app.listen(process.env.PORT || 8888, function(){
-  console.log('LyricList is listening on port 8888');
+app.listen(process.env.PORT || 8080, function(){
+  console.log('LyricList is listening on port 8080');
 });
 
 module.express = app;
