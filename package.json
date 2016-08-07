@@ -1,0 +1,19 @@
+{
+  "name": "LyricList",
+  "version": "1.0.0",
+  "description": "Song Lyric Generating Platform",
+  "main": "server.js",
+  "engines": {
+    "node": "6.2.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mlong635/LyricList.git"
+  },
+  "author": "Matt Long",
+  "homepage": "https://github.com/mlong635/LyricList.git",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0"
+  }
+}
