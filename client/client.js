@@ -1,7 +1,25 @@
 // This is the entry point of the app.
-import App from './containers/app.js';
-import 'babel-polyfill';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import { Router, browserHistory } from 'react-router';
+import routes from './routes';
 
-if (module.hot) {
-  module.hot.accept();
-}
+// import App from './containers/app.js';
+
+const createStoreWithMiddleware = applyMiddleware()(createStore);
+
+ReactDOM.render(
+  <Provider store={createStoreWithMiddleware(reducers)}>
+    <Router history={browserHistory} routes={routes}/>
+  </Provider>
+  , document.querySelector('#app'));
+
+// old code below
+// import App from './containers/app.js';
+// import 'babel-polyfill';
+
+// if (module.hot) {
+//   module.hot.accept();
+// }
