@@ -3,4 +3,5 @@ dist
 npm-debug.log
 notes
 
-config.js
+## API keys
+/env/config.js
