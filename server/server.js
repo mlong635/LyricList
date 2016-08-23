@@ -30,6 +30,7 @@ router.get('/', function(req, res){
   console.log('LyricList is connecting to index.html');
 });
 
+require('./requestHandler')(app);
 
 app.listen(process.env.PORT || 8080, function(){
   console.log('LyricList is listening on port 8080');
