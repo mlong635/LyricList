@@ -13,8 +13,8 @@
     "url": "git+https://github.com/mlong635/LyricList.git"
   },
   "scripts": {
-    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
-    "dev": "NODE_ENV='development' node server/server.js"
+    "dev": "NODE_ENV='development' node server/server.js",
+    "start": "webpack -p && node server/server.js"
   },
   "dependencies": {
     "async": "^2.0.1",
