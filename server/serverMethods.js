@@ -1,17 +1,16 @@
-const Test = require('../db/testSchema');
+const Song = require('../db/songSchema');
 
-module.exports.createNewTest = (newTestObj) => {
-  console.log("create New test invoked with newTest OBj", newTestObj);
+module.exports.createNewSong = (newSongObj) => {
+  console.log("create New song invoked with newsong OBj", newSongObj);
   return new Promise ((resolve, reject) => {
-    Test.find({ name: newTestObj.test.name}, (err, tests) => {
+    Song.find({ name: newSongObj.song.title}, (err, songs) => {
       if(err){
-        console.log("createNewTest error ", err);
+        console.log("createNewSong error ", err);
       }
-      console.log("test results", tests);
-      if(tests.length===0){
-        newTestObj.test.save((err, resp) => {
+      if(songs.length===0){
+        newSongObj.song.save((err, resp) => {
           if(err){
-            console.log("createNewTest database error ", err);
+            console.log("createNewSong database error ", err);
             reject(err);
           }
           else {
@@ -19,20 +18,18 @@ module.exports.createNewTest = (newTestObj) => {
             resolve(resp);
           }
         });
-        console.log(`${newTestObj.test.name} test created`);
+        console.log(`${newSongObj.song.title} song created`);
       }
       else {
-        Test.findOneAndUpdate(
-          { name: newTestObj.test.name},
+        Song.findOneAndUpdate(
+          { name: newSongObj.song.title},
           { $set: {
-            addressNumber: newTestObj.test.addressNumber,
-            addressStreet: newTestObj.test.addressStreet,
-            state: newTestObj.test.state,
-            zip: newTestObj.test.zip,
+            notes: newSongObj.song.notes,
+            lyrics: newSongObj.song.lyrics,
           } }, { upsert: true },
           (err, resp) => err ? reject(err) : resolve(resp)
         );
-        console.log(`${newTestObj.test.name} test updated`);
+        console.log(`${newSongObj.song.title} song updated`);
       }
     })
   });

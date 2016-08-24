@@ -4,7 +4,7 @@ export const FETCH_SONGS = 'FETCH_SONGS';
 export const CREATE_SONG = 'CREATE_SONG';
 
 export function fetchSongs(){
-  const url = '/database/allTests';
+  const url = '/database/allSongs';
   const request = axios.get(url);
   return {
     type: FETCH_SONGS,

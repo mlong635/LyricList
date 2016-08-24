@@ -2,42 +2,39 @@
 
 const db = require('../db/dbConfig');
 const mongoose = require('mongoose');
-const Test = require('../db/testSchema');
-const { createNewTest } = require('./serverMethods');
+const Song = require('../db/songSchema');
+const { createNewSong } = require('./serverMethods');
 
-let newTestObj = {};
-newTestObj.test = new Test({
-  name: 'Matt',
-  addressNumber: 4,
-  addressStreet: '17th Street',
-  state: 'CA',
-  zip: 94110,
-});
 
-createNewTest(newTestObj)
-.then((newTestObj) => {
-  console.log("newTestObj written to the db (i think)", newTestObj);
-  return newTestObj;
-})
-.catch(err => {
-  console.log("requestHandler error", err);
-  res.status(400).send(err)
-});;
+
+
 
 
 
 module.exports = app => {
-  app.get('/database/allTests', (req, res) => {
-    Test.find((err, tests) => {
-      console.log("database/allTests requestHandler just received", tests);
-      res.status(200).send(tests);
+  app.get('/database/allSongs', (req, res) => {
+    Song.find((err, songs) => {
+      console.log("database/allSongs requestHandler just received", songs);
+      res.status(200).send(songs);
     });
   });
   app.post('/database/createSong', (req, res) =>{
-    console.log("request handler database/createSong just rec'd ", req.body)
-    Test.find((err,tests) => {
-      console.log("database/createSong requestHandler just received ", tests);
-      res.status(200).send(tests);
+    console.log("request handler database/createSong just rec'd ", req.body); 
+    // re.body looks like this --> { title: 'asdfasdf', notes: 'asdfasdf', lyrics: 'asdfasdfsa' }
+    let newSongObj = {};
+    newSongObj.song = new Song({
+      title: req.body.title,
+      notes: req.body.notes,
+      lyrics: req.body.lyrics
+    });
+    createNewSong(newSongObj)
+    .then((newSongObj) => {
+      console.log("newSongObj written to the db", newSongObj);
+      return newSongObj;
+    })
+    .catch(err => {
+      console.log("requestHandler /database/createSong error", err);
+      res.status(400).send(err)
     });
   });
 };
