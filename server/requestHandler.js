@@ -29,7 +29,14 @@ createNewTest(newTestObj)
 module.exports = app => {
   app.get('/database/allTests', (req, res) => {
     Test.find((err, tests) => {
-      console.log("requestHandler just received", tests);
+      console.log("database/allTests requestHandler just received", tests);
+      res.status(200).send(tests);
+    });
+  });
+  app.post('/database/createSong', (req, res) =>{
+    console.log("request handler database/createSong just rec'd ", req.body)
+    Test.find((err,tests) => {
+      console.log("database/createSong requestHandler just received ", tests);
       res.status(200).send(tests);
     });
   });
