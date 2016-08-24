@@ -18,12 +18,6 @@ ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
     <Router history={browserHistory} routes={routes}/>
   </Provider>
-  , document.querySelector('#app'));
+  , document.querySelector('#app')
+);
 
-// old code below
-// import App from './containers/app.js';
-// import 'babel-polyfill';
-
-// if (module.hot) {
-//   module.hot.accept();
-// }

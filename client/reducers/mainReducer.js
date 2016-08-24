@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
+import SongsReducer from './reducer_songs';
 
 const rootReducer = combineReducers({
-  state: (state = {}) => state
+  songs: SongsReducer
 });
 
 export default rootReducer;

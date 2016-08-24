@@ -8,13 +8,6 @@ import { Router, browserHistory } from 'react-router';
 
 
 export default class App extends Component {
-  // constructor(props){
-  //   super(props);
-
-  //   this.state = {
-
-  //   }
-  // }
   
   render() {
     return (
@@ -25,8 +18,5 @@ export default class App extends Component {
   }
 };
 
-// ReactDOM.render(<App />, document.querySelector("#app"));
-
-// export default App;
 
 

@@ -1,5 +1,16 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-export default () => {
-  return <div>List of Songs</div>;
+class PostsIndex extends Component {
+
+  componentWillMount(){
+    console.log("Testing songs_index.js componentWillMount");
+  }
+
+  render(){
+    return (
+      <div>List of Songs</div>
+    );
+  }
 }
+
+export default PostsIndex;
