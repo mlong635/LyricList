@@ -13,8 +13,10 @@ class SongsIndex extends Component {
     return this.props.songs.map((song) => {
       return (
         <li className="list-group-item" key={song.id}>
+          <Link to={"songs/" + song.id}>
           <span className="pull-xs-right">{song.notes}</span>
           <strong>{song.title}</strong>
+          </Link>
         </li>
       );
     })
