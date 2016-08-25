@@ -9,6 +9,17 @@ class SongsIndex extends Component {
     this.props.fetchSongs();
   }
 
+  renderSongs() {
+    return this.props.songs.map((song) => {
+      return (
+        <li className="list-group-item" key={song.id}>
+          <span className="pull-xs-right">{song.notes}</span>
+          <strong>{song.title}</strong>
+        </li>
+      );
+    })
+  }
+
   render(){
     return (
       <div>
@@ -17,10 +28,17 @@ class SongsIndex extends Component {
             Create a New Song
           </Link>
         </div>
-        List of Songs
+        <h3>Your Songs</h3>
+        <ul className="list-group">
+          {this.renderSongs()}
+        </ul>
       </div>
     );
   }
 }
 
-export default connect(null, { fetchSongs })(SongsIndex);
+function mapStateToProps(state) {
+  return { songs: state.songs.all };
+}
+
+export default connect(mapStateToProps, { fetchSongs })(SongsIndex);

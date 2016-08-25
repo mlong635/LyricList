@@ -6,7 +6,6 @@ import { Link } from 'react-router';
 class SongsNew extends Component {
 
   onSubmit(props) {
-    console.log("this.context", this.context);
     this.props.createSong(props)
     .then(() => {
       alert('Song successfully saved!');
