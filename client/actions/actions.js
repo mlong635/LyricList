@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export const FETCH_SONGS = 'FETCH_SONGS';
 export const CREATE_SONG = 'CREATE_SONG';
+export const FETCH_SONG = 'FETCH_SONG';
 
 export function fetchSongs(){
   const url = '/database/allSongs';
@@ -20,4 +21,15 @@ export function createSong(props){
     type: CREATE_SONG,
     payload: request
   }
+}
+
+export function fetchOneSong(id) {
+  const url = '/database/fetchOneSong';
+  const request = axios.get(url, id);
+
+  return {
+    type: FETCH_SONG,
+    payload: request
+  }
+
 }

@@ -14,7 +14,7 @@ module.exports = app => {
   });
   app.post('/database/createSong', (req, res) =>{
     console.log("request handler database/createSong just rec'd ", req.body); 
-    // re.body looks like this --> { title: 'asdfasdf', notes: 'asdfasdf', lyrics: 'asdfasdfsa' }
+    // req.body looks like this --> { title: 'asdfasdf', notes: 'asdfasdf', lyrics: 'asdfasdfsa' }
     let newSongObj = {};
     newSongObj.song = new Song({
       title: req.body.title,
@@ -24,12 +24,18 @@ module.exports = app => {
     createNewSong(newSongObj)
     .then((newSongObj) => {
       res.status(200).send(newSongObj);
-      // console.log("newSongObj written to the db", newSongObj);
-      // return newSongObj;
     })
     .catch(err => {
       console.log("requestHandler /database/createSong error", err);
       res.status(400).send(err)
     });
+  });
+  app.get('/database/fetchOneSong', (req, res) => {
+    let _id = req.headers.referer.split('/').pop();
+    console.log("id $$$$$$", _id);
+    Song.findOne({ _id }, (err, song) => {
+      console.log("request handler received song from db and about to send to client", song)
+      res.status(200).send(song)
+    })
   });
 };
