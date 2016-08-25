@@ -5,7 +5,7 @@ import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import ReduxPromise from 'redux-promise';
 import { Router, browserHistory } from 'react-router';
-
+// import './style/style.css';
 
 export default class App extends Component {
   

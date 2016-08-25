@@ -5,12 +5,6 @@ const mongoose = require('mongoose');
 const Song = require('../db/songSchema');
 const { createNewSong } = require('./serverMethods');
 
-
-
-
-
-
-
 module.exports = app => {
   app.get('/database/allSongs', (req, res) => {
     Song.find((err, songs) => {
@@ -29,8 +23,9 @@ module.exports = app => {
     });
     createNewSong(newSongObj)
     .then((newSongObj) => {
-      console.log("newSongObj written to the db", newSongObj);
-      return newSongObj;
+      res.status(200).send(newSongObj);
+      // console.log("newSongObj written to the db", newSongObj);
+      // return newSongObj;
     })
     .catch(err => {
       console.log("requestHandler /database/createSong error", err);
