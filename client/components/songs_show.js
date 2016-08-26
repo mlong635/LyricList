@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchOneSong, deleteSong } from '../actions/actions';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 
 class SongsShow extends Component {
 
   componentWillMount(){
-    console.log("this.props.params", this.props.params);
     this.props.fetchOneSong(this.props.params.id);
   }
 
   onDeleteClick() {
-    this.props.deleteSong(this.props.params.id);
+    this.props.deleteSong(this.props.params.id)
+    .then( () => browserHistory.push('/'));
   }
 
   render() {
-    console.log("this.props", this.props);
     let { song } = this.props;
 
     if(!song) return <div>Loading...</div>;

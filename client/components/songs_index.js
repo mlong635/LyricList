@@ -25,6 +25,11 @@ class SongsIndex extends Component {
   }
 
   render(){
+
+    let { songs } = this.props;
+
+    if(!songs) return <div>Loading...</div>;
+
     return (
       <div>
         <div className="text-xs-right">
