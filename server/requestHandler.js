@@ -32,12 +32,24 @@ module.exports = app => {
   });
   app.get('/database/fetchOneSong', (req, res) => {
     let _id = req.headers.referer.split('/').pop();
-    console.log("id $$$$$$", _id);
+    console.log("requestHandler database/fetchOneSong id $$$$$$", _id);
     Song.findOne({ _id }, (err, song) => {
       console.log("request handler received song from db and about to send to client", song)
       res.status(200).send(song)
     })
   });
+
+  app.get('/database/editSong', (req, res) => {
+    return new Promise ((resolve, reject) => {
+      let _id = req.headers.referer.split('/').pop();
+      console.log("requestHandler database/editSong id $$$$$$", _id);
+      Song.findOne({ _id }, (err, song) => {
+        res.status(200).send(song);
+        resolve(song);
+      })
+    })
+  })
+
   app.get('/database/deleteSong', (req, res) => {
     return new Promise ((resolve, reject) => {
       let _id = req.headers.referer.split('/').pop();
