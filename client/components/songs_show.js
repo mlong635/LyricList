@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchOneSong } from '../actions/actions'
+import { fetchOneSong, deleteSong } from '../actions/actions';
+import { Link } from 'react-router';
 
 class SongsShow extends Component {
 
   componentWillMount(){
     console.log("this.props.params", this.props.params);
     this.props.fetchOneSong(this.props.params.id);
+  }
+
+  onDeleteClick() {
+    this.props.deleteSong(this.props.params.id);
   }
 
   render() {
@@ -17,6 +22,8 @@ class SongsShow extends Component {
 
     return (
       <div>
+        <Link to="/">Back to Your Song List</Link>
+        <button className="btn btn-danger pull-xs-right" onClick={this.onDeleteClick.bind(this)}>Delete Song</button>
         <h3>{song.title}</h3>
         <h6>Notes: {song.notes}</h6>
         <p>{song.lyrics}</p>
@@ -29,4 +36,4 @@ function mapStateToProps(state){
   return { song: state.songs.song}
 }
 
-export default connect(mapStateToProps, { fetchOneSong })(SongsShow);
+export default connect(mapStateToProps, { fetchOneSong, deleteSong })(SongsShow);

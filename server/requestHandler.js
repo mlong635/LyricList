@@ -38,4 +38,10 @@ module.exports = app => {
       res.status(200).send(song)
     })
   });
+  app.get('/database/deleteSong', (req, res) => {
+    let _id = req.headers.referer.split('/').pop();
+    console.log("requestHandler /database/deleteSong *******", _id);
+    Song.findOne({ _id }).remove().exec();
+    // res.status(200).send('response');
+  });
 };
