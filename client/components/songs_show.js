@@ -10,8 +10,23 @@ class SongsShow extends Component {
   }
 
   render() {
-    return <div> Show Song {this.props.params.id}</div>;
+    console.log("this.props", this.props);
+    let { song } = this.props;
+
+    if(!song) return <div>Loading...</div>;
+
+    return (
+      <div>
+        <h3>{song.title}</h3>
+        <h6>Notes: {song.notes}</h6>
+        <p>{song.lyrics}</p>
+      </div>
+    );
   }
 }
 
-export default connect(null, { fetchOneSong })(SongsShow);
+function mapStateToProps(state){
+  return { song: state.songs.song}
+}
+
+export default connect(mapStateToProps, { fetchOneSong })(SongsShow);
