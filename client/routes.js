@@ -11,8 +11,8 @@ import CreateAccount from './components/create_account';
 
 export default (
   <Route path="/" component={App}>
-    <IndexRoute component={SongsIndex} />
-    <Route path="/login" component={Login} />
+    <IndexRoute component={Login} />
+    <Route path="/login" component={SongsIndex} />
     <Route path="/createaccount" component={CreateAccount} />
     <Route path="/songs/new" component={SongsNew} />
     <Route path="/songs/:id" component={SongsShow} />

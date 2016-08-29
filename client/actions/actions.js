@@ -5,7 +5,7 @@ export const CREATE_SONG = 'CREATE_SONG';
 export const FETCH_SONG = 'FETCH_SONG';
 export const DELETE_SONG = 'DELETE_SONG';
 export const EDIT_SONG = 'EDIT_SONG';
-
+export const SUBMIT_LOGIN = 'SUBMIT_LOGIN';
 
 export function fetchSongs(){
   const url = '/database/allSongs';
@@ -52,6 +52,16 @@ export function deleteSong(id){
 
   return {
     type: DELETE_SONG,
+    payload: request
+  }
+}
+
+export function submitLogin(username, password){
+  const url = '/database/submitLogin';
+  const request = axios.get(url, username, password);
+
+  return {
+    type: SUBMIT_LOGIN,
     payload: request
   }
 }

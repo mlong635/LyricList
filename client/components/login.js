@@ -2,8 +2,17 @@ import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import { submitLogin } from '../actions/actions';
 
 class Login extends Component {
+
+  onSubmit(props) {
+    console.log("login submitted", props);
+    // this.props.createSong(props)
+    // .then(() => {
+    //   alert('Song successfully saved!');
+    // })
+  }
 
   render() {
 
@@ -20,21 +29,18 @@ class Login extends Component {
             </div>
           </div>
 
-            <div>
-              <label for="username">Username:</label>
-              <input id="username" type="text" name="username">
+          <div className={`form-group ${password.touched && password.invalid ? 'has-danger' : ''}`}>
+            <label>Password</label>
+            <input type="text" className="form-control" {...password}/>
+            <div className="text-help">
+              {password.touched ? password.error : ''}
             </div>
-            <div>
-              <label for="password">Password:</label>
-              <input id="password" type="password" name="password">
-            </div>
-            <div>
-              <input type="submit" value="Login">
-            </div>
-            <p>
+          </div>
+
+          <button type="submit" className="btn btn-primary">Submit</button>
           <Link to="/createaccount" className="btn btn-primary">Create an Account</Link>
-            <p>
-            <h4>- OR -</h4>
+            <p></p>
+            <h4>- OR -</h4><p></p><p></p>
           <button className="btn btn-primary">Continue as Guest</button>
       </form>
     );
@@ -58,4 +64,4 @@ export default reduxForm({
   form: 'Login',
   fields: ['username', 'password'],
   validate
-}, null, { createSong })(Login);
+}, null, { submitLogin })(Login);
