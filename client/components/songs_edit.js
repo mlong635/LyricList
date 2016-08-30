@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import { createSong, editSong } from '../actions/actions';
 import { Link } from 'react-router';

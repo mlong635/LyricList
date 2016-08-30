@@ -3,9 +3,18 @@
 const db = require('../db/dbConfig');
 const mongoose = require('mongoose');
 const Song = require('../db/songSchema');
+const User = require('../db/userSchema');
 const { createNewSong } = require('./serverMethods');
 
 module.exports = app => {
+  app.post('/database/submitLogin', (req, res) => {
+    console.log('************* requestHandler database/submitLogin req.body', req.body);
+    let username = req.body.username;
+    User.findOne({ username }, (err, user) =>{
+      console.log(arguments);
+    })
+  });
+
   app.get('/database/allSongs', (req, res) => {
     Song.find((err, songs) => {
       console.log("database/allSongs requestHandler just received", songs);

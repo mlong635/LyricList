@@ -1,4 +1,4 @@
-import { FETCH_SONGS, FETCH_SONG, EDIT_SONG } from '../actions/actions';
+import { FETCH_SONGS, FETCH_SONG, EDIT_SONG, SUBMIT_LOGIN } from '../actions/actions';
 
 const INITIAL_STATE = { all: [], song: null };
 
@@ -11,6 +11,8 @@ export default function(state = INITIAL_STATE, action) {
       return { all: action.payload.data };
     case EDIT_SONG:
       return { song: action.payload.data };
+    // case SUBMIT_LOGIN:
+    //   return { user: action.payload.data };
     default: 
       return state;
   }

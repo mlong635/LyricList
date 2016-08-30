@@ -17,6 +17,8 @@ export function fetchSongs(){
 }
 
 export function createSong(props){
+  console.log("actions.js createSong props", props);
+
   const url = '/database/createSong';
   const request = axios.post(url, props);
 
@@ -56,9 +58,10 @@ export function deleteSong(id){
   }
 }
 
-export function submitLogin(username, password){
+export function submitLogin(props){
+  console.log("actions.js submitLogin props", props);
   const url = '/database/submitLogin';
-  const request = axios.get(url, username, password);
+  const request = axios.post(url, props);
 
   return {
     type: SUBMIT_LOGIN,

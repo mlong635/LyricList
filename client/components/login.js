@@ -8,10 +8,11 @@ class Login extends Component {
 
   onSubmit(props) {
     console.log("login submitted", props);
-    // this.props.createSong(props)
-    // .then(() => {
-    //   alert('Song successfully saved!');
-    // })
+    this.props.submitLogin(props)
+    .then(() => {
+      // redirect to index
+      
+    })
   }
 
   render() {
