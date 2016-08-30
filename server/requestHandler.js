@@ -15,12 +15,21 @@ module.exports = app => {
     })
   });
 
+  app.post('/database/createAccount', (req, res) => {
+    console.log('************* requestHandler database/createAccount req.body', req.body);
+    let username = req.body.username;
+    User.findOne({ username }, (err, user) =>{
+      console.log(arguments);
+    })
+  });
+
   app.get('/database/allSongs', (req, res) => {
     Song.find((err, songs) => {
       console.log("database/allSongs requestHandler just received", songs);
       res.status(200).send(songs);
     });
   });
+
   app.post('/database/createSong', (req, res) =>{
     console.log("request handler database/createSong just rec'd ", req.body); 
     // req.body looks like this --> { title: 'asdfasdf', notes: 'asdfasdf', lyrics: 'asdfasdfsa' }
@@ -39,6 +48,7 @@ module.exports = app => {
       res.status(400).send(err)
     });
   });
+  
   app.get('/database/fetchOneSong', (req, res) => {
     let _id = req.headers.referer.split('/').pop();
     console.log("requestHandler database/fetchOneSong id $$$$$$", _id);

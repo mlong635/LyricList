@@ -6,6 +6,7 @@ export const FETCH_SONG = 'FETCH_SONG';
 export const DELETE_SONG = 'DELETE_SONG';
 export const EDIT_SONG = 'EDIT_SONG';
 export const SUBMIT_LOGIN = 'SUBMIT_LOGIN';
+export const SUBMIT_CREATE_ACCOUNT = 'SUBMIT_CREATE_ACCOUNT';
 
 export function fetchSongs(){
   const url = '/database/allSongs';
@@ -65,6 +66,17 @@ export function submitLogin(props){
 
   return {
     type: SUBMIT_LOGIN,
+    payload: request
+  }
+}
+
+export function submitCreateAccount(props){
+  console.log("actions.js submitCreateAccount props", props);
+  const url = '/database/createAccount';
+  const request = axios.post(url, props);
+
+  return {
+    type: SUBMIT_CREATE_ACCOUNT,
     payload: request
   }
 }
