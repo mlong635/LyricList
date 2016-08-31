@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+export const FETCH_USER_PROFILE = 'FETCH_USER_PROFILE';
+export const CREATE_USER_PROFILE = 'CREATE_USER_PROFILE';
+
 export const FETCH_SONGS = 'FETCH_SONGS';
 export const CREATE_SONG = 'CREATE_SONG';
 export const FETCH_SONG = 'FETCH_SONG';
@@ -7,6 +10,27 @@ export const DELETE_SONG = 'DELETE_SONG';
 export const EDIT_SONG = 'EDIT_SONG';
 export const SUBMIT_LOGIN = 'SUBMIT_LOGIN';
 export const SUBMIT_CREATE_ACCOUNT = 'SUBMIT_CREATE_ACCOUNT';
+
+export function createUserProfile(props){
+  const url = '/database/createUserProfile';
+  const request = axios.post(url, props);
+
+  return {
+    type: CREATE_USER_PROFILE,
+    payload: request
+  }
+}
+
+export function fetchUserProfile(id){
+  console.log("actions.js fetchUserProfile id ", id);
+  const url = '/database/fetchUserProfile';
+  const request = axios.post(url, id);
+  
+  return {
+    type: FETCH_USER_PROFILE,
+    payload: request
+  }
+}
 
 export function fetchSongs(){
   const url = '/database/allSongs';

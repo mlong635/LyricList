@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
-import { submitCreateAccount } from '../actions/actions';
+import { Link, browserHistory } from 'react-router';
+import { submitCreateAccount, createUserProfile } from '../actions/actions';
 
 class CreateAccount extends Component {
 
   onSubmit(props) {
     console.log("createAccount submitted", props);
-    this.props.submitCreateAccount(props)
-    .then(() => {
+    // this.props.submitCreateAccount(props)
+    this.props.createUserProfile(props)
+
+    .then((args) => {
+      console.log(args);
       // redirect to index
-      
+      browserHistory.push('/')
     })
   }
 
@@ -65,4 +68,4 @@ export default reduxForm({
   form: 'CreateAccount',
   fields: ['username', 'password'],
   validate
-}, null, { submitCreateAccount })(CreateAccount);
+}, null, { submitCreateAccount, createUserProfile })(CreateAccount);

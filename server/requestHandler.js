@@ -4,22 +4,86 @@ const db = require('../db/dbConfig');
 const mongoose = require('mongoose');
 const Song = require('../db/songSchema');
 const User = require('../db/userSchema');
-const { createNewSong } = require('./serverMethods');
+const UserProfile = require('../db/userProfileSchema');
 
-module.exports = app => {
+const { createNewSong, createNewUser, createUserProfile } = require('./serverMethods');
+
+module.exports = (app) => {
+
+  app.post('/database/createUserProfile', (req, res) => {
+    console.log('************* requestHandler database/createUserProfile req.body', req.body);
+    let newUserObj = {};
+    newUserObj.user = new UserProfile ({
+      username : req.body.username,
+      password : req.body.password
+    });
+    createUserProfile(newUserObj)
+    .then( (newUserObj) => {
+      if(newUserObj.alreadyTaken){
+        res.status(400).send('Username already taken');
+      }
+      else {
+        res.status(200).send(newUserObj);
+      }
+    })
+    .catch( (err) => {
+      console.log("requestHandler /database/createUserProfile error", err);
+      res.status(400).send(err)
+    })
+  });
+
+  app.post('/database/fetchUserProfile', (req, res) => {
+    // console.log('************* requestHandler database/fetchUserProfile req.body', req);
+    let _id = req.headers.referer.split('/').pop();
+    UserProfile.findOne({ _id }, (err, user) => {
+      console.log("database/fetchUserProfile responded with ", user);
+      if(err){
+        console.log("requestHandler database/fetchUserProfile error ", err)
+      }
+      else {
+        res.status(200).send(user);
+      }
+    })
+  });
+
   app.post('/database/submitLogin', (req, res) => {
     console.log('************* requestHandler database/submitLogin req.body', req.body);
     let username = req.body.username;
-    User.findOne({ username }, (err, user) =>{
-      console.log(arguments);
+    UserProfile.findOne({ username }, (err, user) =>{
+      console.log("database/submitLogin responded with ", user);
+      if(user===null){
+        console.log("Invalid Username");
+        res.status(200).send("Invalid Username");
+      }
+      else if(req.body.password!==user.password){
+        console.log("Invalid password");
+        res.status(200).send("Invalid Password")
+      }
+      else {
+        res.status(200).send(user);
+      }
     })
   });
 
   app.post('/database/createAccount', (req, res) => {
     console.log('************* requestHandler database/createAccount req.body', req.body);
-    let username = req.body.username;
-    User.findOne({ username }, (err, user) =>{
-      console.log(arguments);
+    let newUserObj = {};
+    newUserObj.user = new User ({
+      username : req.body.username,
+      password : req.body.password
+    });
+    createNewUser(newUserObj)
+    .then( (newUserObj) => {
+      if(newUserObj.alreadyTaken){
+        res.status(400).send(err);
+      }
+      else {
+        res.status(200).send(newUserObj);
+      }
+    })
+    .catch( (err) => {
+      console.log("requestHandler /database/createAccount error", err);
+      res.status(400).send(err)
     })
   });
 
@@ -43,12 +107,12 @@ module.exports = app => {
     .then((newSongObj) => {
       res.status(200).send(newSongObj);
     })
-    .catch(err => {
+    .catch( (err) => {
       console.log("requestHandler /database/createSong error", err);
       res.status(400).send(err)
     });
   });
-  
+
   app.get('/database/fetchOneSong', (req, res) => {
     let _id = req.headers.referer.split('/').pop();
     console.log("requestHandler database/fetchOneSong id $$$$$$", _id);

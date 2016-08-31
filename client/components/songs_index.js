@@ -1,34 +1,50 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchSongs } from '../actions/actions';
-import { Link } from 'react-router';
+import { fetchSongs, fetchUserProfile } from '../actions/actions';
+import { Link, browserHistory } from 'react-router';
 
 class SongsIndex extends Component {
 
   componentWillMount(){
-    this.props.fetchSongs();
+    console.log("songs_index componentWillMount() this.props", this.props);
+    // this.props.fetchSongs();
+    // this.props.fetchUserProfile();
   }
 
   renderSongs() {
     // console.log("this.props.songs", this.props.songs);
+    
+    if(this.props.userProfile){
+      if(this.props.userProfile.songs.length===0){
+        return (
+          <li>
+            You have no songs in your profile.  Please <Link to="/songs/new"> click Create a New Song </Link> to add a song to your profile!
+          </li>
+        );
+      }
 
-    return this.props.songs.map((song) => {
-      return (
-        <li className="list-group-item" key={song._id}>
-          <Link to={"songs/" + song._id}>
-          <span className="pull-xs-right">{song.notes}</span>
-          <strong>{song.title}</strong>
-          </Link>
-        </li>
-      );
-    })
+      return this.props.userProfile.songs.map((song) => {
+        return (
+          <li className="list-group-item" key={song._id}>
+            <Link to={"songs/" + song._id}>
+            <span className="pull-xs-right">{song.notes}</span>
+            <strong>{song.title}</strong>
+            </Link>
+          </li>
+        );
+      });
+    }
   }
 
   render(){
+    console.log("songs_index render() this.props", this.props);
 
-    let { songs } = this.props;
+    let { userProfile } = this.props;
+    // let { songs } = this.props;
 
-    if(!songs) return <div>Loading...</div>;
+    if(!userProfile) browserHistory.push('/login');
+
+    // if(!songs) return <div>Loading...</div>;
 
     return (
       <div>
@@ -47,7 +63,7 @@ class SongsIndex extends Component {
 }
 
 function mapStateToProps(state) {
-  return { songs: state.songs.all };
+  return { userProfile: state.userProfile };
 }
 
-export default connect(mapStateToProps, { fetchSongs })(SongsIndex);
+export default connect(mapStateToProps, { fetchSongs, fetchUserProfile })(SongsIndex);

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import { submitLogin } from '../actions/actions';
 
 class Login extends Component {
@@ -9,9 +9,25 @@ class Login extends Component {
   onSubmit(props) {
     console.log("login submitted", props);
     this.props.submitLogin(props)
-    .then(() => {
-      // redirect to index
-      
+    .then((res) => {
+      console.log("response received", res);
+      if(res.payload.data==="Invalid Password"){
+        alert("Invalid Password.  Please try again.");  // this is being depricated soon (Sept 2016), so need to come up with something better
+      }
+      else if(res.payload.data==="Invalid Username"){
+        alert("Invalid Username.  Please try again.");
+      }
+      else {
+        browserHistory.push('/user/'+res.payload.data._id);
+      }
+    })
+  }
+
+  onClick () {
+    let guest = ({ username: 'guest', password: 'guest' });
+    this.props.submitLogin(guest)
+    .then((res) => {
+      browserHistory.push('/user/'+res.payload.data._id);
     })
   }
 
@@ -40,9 +56,9 @@ class Login extends Component {
 
           <button type="submit" className="btn btn-primary">Submit</button>
           <Link to="/createaccount" className="btn btn-primary">Create an Account</Link>
-            <p></p>
-            <h4>- OR -</h4><p></p><p></p>
-          <button className="btn btn-primary">Continue as Guest</button>
+          <p></p>
+          <h4>- OR -</h4><p></p><p></p>
+        <button onClick={this.onClick.bind(this)} className="btn btn-primary">Continue as Guest</button>
       </form>
     );
   }
@@ -58,11 +74,24 @@ function validate(values) {
   if(!values.password){
     errors.password = "* Password Required"
   }
+
+  if(values.password==="Invalid Password"){
+    errors.password = "* Invalid Password";
+  }
+
   return errors;
+}
+
+function mapStateToProps(state) {
+  return { userProfile: state.userProfile };
 }
 
 export default reduxForm({
   form: 'Login',
   fields: ['username', 'password'],
-  validate
+  validate,
+  mapStateToProps
 }, null, { submitLogin })(Login);
+
+
+// export default connect(mapStateToProps, { submitLogin })(Login);

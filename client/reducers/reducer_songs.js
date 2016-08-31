@@ -1,18 +1,20 @@
-import { FETCH_SONGS, FETCH_SONG, EDIT_SONG, SUBMIT_LOGIN } from '../actions/actions';
+import { FETCH_SONGS, FETCH_SONG, EDIT_SONG, SUBMIT_LOGIN, FETCH_USER_PROFILE } from '../actions/actions';
 
-const INITIAL_STATE = { all: [], song: null };
+// const INITIAL_STATE = { username: null, songs: [] };
+const INITIAL_STATE = { userProfile: null };
+
 
 export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
-    case FETCH_SONG:
-      return { song: action.payload.data };
-    case FETCH_SONGS:
-      // return { ...state, all: action.payload.data };  // this kept throwing errors so I switched to the next line
-      return { all: action.payload.data };
-    case EDIT_SONG:
-      return { song: action.payload.data };
-    // case SUBMIT_LOGIN:
-    //   return { user: action.payload.data };
+    // case FETCH_SONG:
+    //   return { song: action.payload.data };
+    // case FETCH_SONGS:
+    //   // return { ...state, all: action.payload.data };  // this kept throwing errors so I switched to the next line
+    //   return { all: action.payload.data };
+    // case EDIT_SONG:
+    //   return { song: action.payload.data };
+    case FETCH_USER_PROFILE:
+      return { userProfile: action.payload.data };
     default: 
       return state;
   }
