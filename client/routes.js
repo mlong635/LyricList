@@ -16,7 +16,7 @@ export default (
     <Route path="/login" component={Login} />
     <Route path="/createaccount" component={CreateAccount} />
     <Route path="/songs/new" component={SongsNew} />
-    <Route path="/songs/:id" component={SongsShow} />
+    <Route path="/songs/:title" component={SongsShow} />
     <Route path="/songs/edit/:id" component={SongsEdit} />
     <Route path="/user/*" component={UserSongsIndex} />
   </Route>

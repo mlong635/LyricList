@@ -47,8 +47,8 @@ class UserSongsIndex extends Component {
       else {
         return userProfile.songs.map((song) => {
           return (
-            <li className="list-group-item" key={song._id}>
-              <Link to={"songs/" + song._id}>
+            <li className="list-group-item" key={song.title}>
+              <Link to={"songs/" + song.title}>
               <span className="pull-xs-right">{song.notes}</span>
               <strong>{song.title}</strong>
               </Link>

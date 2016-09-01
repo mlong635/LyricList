@@ -1,45 +1,58 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchOneSong, deleteSong, editSong } from '../actions/actions';
+import { fetchOneSong, deleteSong, editSong, saveUserProfile } from '../actions/actions';
 import { Link, browserHistory } from 'react-router';
+let thisSong = null;
 
 class SongsShow extends Component {
 
   componentWillMount(){
-    this.props.fetchOneSong(this.props.params.id);
+    console.log("songs_show this.props", this.props);
+    console.log("songs_show this.state", this.state);
+    this.props.saveUserProfile()
+    .then( result => {
+      console.log("SongsShow componentWillMount savedUserProfile ", result.payload.data);
+      thisSong = result.payload.data.userProfile.songs.filter( song => {
+        return song.title === this.props.params.title;
+      })[0];
+      console.log("thisSong", thisSong);
+      this.setState({ userProfile: result.payload.data.userProfile, thisSong: thisSong });
+    })
   }
 
   onEditClick() {
-    // this.props.editSong(this.props.params.id)
-    // .then( () => 
-    browserHistory.push('/songs/edit/'+this.props.params.id)
+    browserHistory.push('/songs/edit/'+this.props.params.title)
   }
 
   onDeleteClick() {
-    this.props.deleteSong(this.props.params.id)
-    .then( () => browserHistory.push('/'));
+    this.props.deleteSong(this.props.params.title)
+    .then( () => browserHistory.push('/user/'+this.state.userProfile._id));
   }
 
   render() {
-    let { song } = this.props;
+    
 
-    if(!song) return <div>Loading...</div>;
+    if(!this.state) return <div>Loading...</div>;
+
+    let { thisSong } = this.state;
+    var userProfile = this.state!==null ? this.state.userProfile : undefined;
+    var linkBack = userProfile ? '/user/'+userProfile._id : '/user/';
 
     return (
       <div>
-        <Link to="/">Back to Your Song List</Link>
+        <Link to={linkBack}>Back to Your Song List</Link>
         <button className="btn btn-danger pull-xs-right" onClick={this.onDeleteClick.bind(this)}>Delete Song</button>
         <button className="btn btn-primary pull-xs-right" onClick={this.onEditClick.bind(this)}>Edit Song</button>
-        <h3>{song.title}</h3>
-        <h6>Notes: {song.notes}</h6>
-        <p>{song.lyrics}</p>
+        <h3>{thisSong.title}</h3>
+        <h6>Notes: {thisSong.notes}</h6>
+        <p>{thisSong.lyrics}</p>
       </div>
     );
   }
 }
 
 function mapStateToProps(state){
-  return { song: state.songs.song}
+  return { userProfile: state.userProfile, thisSong: state.thisSong };
 }
 
-export default connect(mapStateToProps, { fetchOneSong, deleteSong, editSong })(SongsShow);
+export default connect(mapStateToProps, { saveUserProfile, fetchOneSong, deleteSong, editSong })(SongsShow);
