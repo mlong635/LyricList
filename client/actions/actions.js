@@ -84,9 +84,9 @@ export function editSong(id) {
   }
 }
 
-export function deleteSong(id){
+export function deleteSong(songInfo){
   const url = '/database/deleteSong';
-  const request = axios.get(url, id);
+  const request = axios.post(url, songInfo);
 
   return {
     type: DELETE_SONG,

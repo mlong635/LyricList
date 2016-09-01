@@ -28,8 +28,6 @@ class SongsEdit extends Component {
   }
 
   render(){
-    if(!this.state) return <div>Loading...</div>
-
     if(!this.state) return <div>Loading...</div>;
 
     let { thisSong } = this.state;
