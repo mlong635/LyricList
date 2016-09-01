@@ -12,10 +12,12 @@ class SongsShow extends Component {
     this.props.saveUserProfile()
     .then( result => {
       console.log("SongsShow componentWillMount savedUserProfile ", result.payload.data);
+      console.log("this.props.params.title", this.props.params.id);
       thisSong = result.payload.data.userProfile.songs.filter( song => {
+        console.log ("inside filter song.title", song.title);
         return song.title === this.props.params.title;
       })[0];
-      console.log("thisSong", thisSong);
+      console.log("songsShow componentWIllMount thisSong", thisSong);
       this.setState({ userProfile: result.payload.data.userProfile, thisSong: thisSong });
     })
   }

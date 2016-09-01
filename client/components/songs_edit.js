@@ -1,16 +1,23 @@
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
-import { createSong, editSong } from '../actions/actions';
+import { createSong, editSong, saveUserProfile } from '../actions/actions';
 import { Link } from 'react-router';
+let thisSong = null;
 
 class SongsEdit extends Component {
 
   componentWillMount(){
-    this.props.editSong(this.props.params.id)
-    .then((song) => {
-      console.log("SongsEdit rec'd from database" + song);
-      this.setState({ song });
-    });
+    console.log("Songs_edit componentWillMount this.props", this.props);
+    this.props.saveUserProfile()
+    .then( result => {
+      console.log("Songs_edit componentWillMount savedUserProfile ", result.payload.data);
+      thisSong = result.payload.data.userProfile.songs.filter( song => {
+        console.log("inside filter function ", song.title);
+        return song.title === this.props.params.id;
+      })[0];
+      console.log("Songs Edit ComponentWillMount thisSong", thisSong);
+      this.setState({ userProfile: result.payload.data.userProfile, thisSong: thisSong });
+    })
   }
 
   onSubmit(props) {
@@ -23,18 +30,22 @@ class SongsEdit extends Component {
   render(){
     if(!this.state) return <div>Loading...</div>
 
-    let currentSong = this.state.song.payload.data;
+    if(!this.state) return <div>Loading...</div>;
+
+    let { thisSong } = this.state;
+    var userProfile = this.state!==null ? this.state.userProfile : undefined;
+    var linkBack = userProfile ? '/user/'+userProfile._id : '/user/';
 
     const { fields: { title, notes, lyrics }, handleSubmit } = this.props;
 
     return (
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
         <h3>Edit Song</h3>
-        <Link to="/" className="text-xs-right">Back to Your Song List</Link>
+        <Link to={linkBack} className="text-xs-right">Back to Your Song List</Link>
 
         <div className={`form-group ${title.touched && title.invalid ? 'has-danger' : ''}`}>
           <label>Title</label>
-          <input type="text" className="form-control" {...title} value={currentSong.title} />
+          <input type="text" className="form-control" {...title} value={thisSong.title} />
           <div className="text-help">
             {title.touched ? title.error : ''}
           </div>
@@ -42,20 +53,20 @@ class SongsEdit extends Component {
 
         <div className="form-group">
           <label>Notes (optional) </label>
-          <input type="text" placeholder="e.g. 'Slow Blues key of E'" className="form-control" {...notes} value={currentSong.notes}/>
+          <input type="text" placeholder="e.g. 'Slow Blues key of E'" className="form-control" {...notes} value={thisSong.notes}/>
         </div>
 
         <div className={`form-group ${lyrics.touched && lyrics.invalid ? 'has-danger' : ''}`}>
           <label>Lyrics</label>
-          <textarea className="form-control" {...lyrics} value={currentSong.lyrics}/>
+          <textarea className="form-control" {...lyrics} value={thisSong.lyrics}/>
           <div className="text-help">
             {lyrics.touched ? lyrics.error : ''}
           </div>
         </div>
 
         <button id="yolo" type="submit" className="btn btn-primary">Save this Song</button>
-        <Link to="/" className="btn btn-danger">Discard Changes</Link><br></br><br></br>
-        <Link to="/" className="btn btn-primary">Back to Your Song List</Link>
+        <Link to={linkBack} className="btn btn-danger">Discard Changes</Link><br></br><br></br>
+        <Link to={linkBack} className="btn btn-primary">Back to Your Song List</Link>
       </form>
     );
   }
@@ -78,7 +89,7 @@ export default reduxForm({
   form: 'SongsNew',
   fields: ['title', 'notes', 'lyrics'],
   validate
-}, null, { createSong, editSong })(SongsEdit);
+}, null, { createSong, editSong, saveUserProfile })(SongsEdit);
 
 
 
