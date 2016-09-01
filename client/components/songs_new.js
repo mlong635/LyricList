@@ -17,7 +17,8 @@ class SongsNew extends Component {
   }
 
   onSubmit(props) {
-    this.props.createSong(props)
+    let songInfo = { userProfile: this.state.userProfile, newSong: props }
+    this.props.createSong(songInfo)
     .then(() => {
       alert('Song successfully saved!');
     })

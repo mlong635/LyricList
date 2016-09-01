@@ -116,15 +116,17 @@ module.exports = (app) => {
 
   app.post('/database/createSong', (req, res) =>{
     console.log("request handler database/createSong just rec'd ", req.body); 
-    // req.body looks like this --> { title: 'asdfasdf', notes: 'asdfasdf', lyrics: 'asdfasdfsa' }
-    let newSongObj = {};
-    newSongObj.song = new Song({
-      title: req.body.title,
-      notes: req.body.notes,
-      lyrics: req.body.lyrics
-    });
-    createNewSong(newSongObj)
+    let songInfo = req.body;
+    createNewSong(songInfo)
+    // let newSongObj = {};
+    // newSongObj.song = new Song({
+    //   title: req.body.title,
+    //   notes: req.body.notes,
+    //   lyrics: req.body.lyrics
+    // });
+    // createNewSong(newSongObj)
     .then((newSongObj) => {
+      console.log("createNewSong responded with ", newSongObj)
       res.status(200).send(newSongObj);
     })
     .catch( (err) => {

@@ -52,11 +52,11 @@ export function fetchSongs(){
   };
 }
 
-export function createSong(props){
-  console.log("actions.js createSong props", props);
+export function createSong(songInfo){
+  console.log("actions.js createSong props", songInfo);
 
   const url = '/database/createSong';
-  const request = axios.post(url, props);
+  const request = axios.post(url, songInfo);
 
   return {
     type: CREATE_SONG,
