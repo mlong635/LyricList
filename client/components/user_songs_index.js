@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { fetchSongs, fetchUserProfile } from '../actions/actions';
+import { fetchSongs, fetchUserProfile, saveUserProfile } from '../actions/actions';
 import { Link, browserHistory } from 'react-router';
 
 class UserSongsIndex extends Component {
@@ -14,8 +15,11 @@ class UserSongsIndex extends Component {
       let userInfo = {};
       userInfo.username = response.payload.data.username;
       userInfo.songs = response.payload.data.songs;
+      userInfo._id = response.payload.data._id;
       console.log("userInfo ", userInfo);
-      this.setState({ userProfile: userInfo });
+      let newState = { userProfile: userInfo };
+      this.props.saveUserProfile(newState);
+      this.setState(newState);
     });
   }
 
@@ -46,8 +50,8 @@ class UserSongsIndex extends Component {
   }
 
   render(){
-    console.log("songs_index render() this.props", this.props);
-    console.log("songs_index this.state", this.state);
+    console.log("user_songs_index render() this.props", this.props);
+    console.log("user_songs_index this.state", this.state);
 
     var userProfile = this.state!==null ? this.state.userProfile : undefined;
 
@@ -73,4 +77,8 @@ function mapStateToProps(state) {
   return { userProfile: state.userProfile };
 }
 
-export default connect(mapStateToProps, { fetchSongs, fetchUserProfile })(UserSongsIndex);
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ fetchUserProfile, saveUserProfile }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserSongsIndex);

@@ -5,10 +5,30 @@ const mongoose = require('mongoose');
 const Song = require('../db/songSchema');
 const User = require('../db/userSchema');
 const UserProfile = require('../db/userProfileSchema');
+let savedUserProfile = 1;
 
 const { createNewSong, createNewUser, createUserProfile } = require('./serverMethods');
 
 module.exports = (app) => {
+
+  app.post('/database/saveUserProfile', (req, res) => {
+    console.log('&&&&&&&&&& requestHandler database/saveUserProfile req.body', req.body);
+    
+    let closure = function (userProfile) {
+      return function () {
+        return userProfile;
+      }
+    }
+    console.log("$$$$$ Object.keys(req.body).length", Object.keys(req.body).length);
+    if (Object.keys(req.body).length){  // if req.body is not an empty object
+      savedUserProfile = closure(req.body);
+      res.status(200).send("userProfile saved in server");
+    }
+    else {
+      console.log("savedUserProfile", savedUserProfile);
+      res.status(200).send(savedUserProfile());
+    }
+  });
 
   app.post('/database/createUserProfile', (req, res) => {
     console.log('************* requestHandler database/createUserProfile req.body', req.body);

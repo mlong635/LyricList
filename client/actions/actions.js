@@ -10,6 +10,17 @@ export const DELETE_SONG = 'DELETE_SONG';
 export const EDIT_SONG = 'EDIT_SONG';
 export const SUBMIT_LOGIN = 'SUBMIT_LOGIN';
 export const SUBMIT_CREATE_ACCOUNT = 'SUBMIT_CREATE_ACCOUNT';
+export const SAVE_USER_PROFILE = 'SAVE_USER_PROFILE';
+
+export function saveUserProfile(userProfile){
+  const url = '/database/saveUserProfile';
+  const request = axios.post(url, userProfile);
+
+  return {
+    type: SAVE_USER_PROFILE,
+    payload: request
+  }
+}
 
 export function createUserProfile(props){
   const url = '/database/createUserProfile';

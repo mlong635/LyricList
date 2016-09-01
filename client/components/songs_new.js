@@ -1,9 +1,20 @@
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
-import { createSong } from '../actions/actions';
+import { createSong, saveUserProfile } from '../actions/actions';
 import { Link } from 'react-router';
 
 class SongsNew extends Component {
+
+  componentWillMount(){
+    console.log("songs_new componentWillMount this.props ", this.props);
+    console.log("songs_new componentWillMount this.state ", this.state);
+    let retrieved = this.props.saveUserProfile()
+    .then(result => {
+      console.log("songs_new componentWillMount result", result);
+      console.log("retrieved", result.payload.data);
+      this.setState({ userProfile: result.payload.data.userProfile })
+    })
+  }
 
   onSubmit(props) {
     this.props.createSong(props)
@@ -15,6 +26,8 @@ class SongsNew extends Component {
   render(){
     const { fields: { title, notes, lyrics }, handleSubmit } = this.props;
     //to see all of the native methods console.log("title", title);
+    console.log("songs_new render() this.props ", this.props);
+    console.log("songs_new render() this.state ", this.state);
 
     return (
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
@@ -63,11 +76,16 @@ function validate(values) {
   return errors;
 }
 
+function mapStateToProps(state) {
+  return { userProfile: state.userProfile };
+}
+
 export default reduxForm({
   form: 'SongsNew',
   fields: ['title', 'notes', 'lyrics'],
-  validate
-}, null, { createSong })(SongsNew);
+  validate,
+  mapStateToProps
+}, null, { createSong, saveUserProfile })(SongsNew);
 
 
 
