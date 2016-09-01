@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const Song = require('../db/songSchema');
 const User = require('../db/userSchema');
 const UserProfile = require('../db/userProfileSchema');
-let savedUserProfile = 1;
+let savedUserProfile = () => 'No saved user';
 
 const { createNewSong, createNewUser, createUserProfile } = require('./serverMethods');
 
@@ -118,13 +118,6 @@ module.exports = (app) => {
     console.log("request handler database/createSong just rec'd ", req.body); 
     let songInfo = req.body;
     createNewSong(songInfo)
-    // let newSongObj = {};
-    // newSongObj.song = new Song({
-    //   title: req.body.title,
-    //   notes: req.body.notes,
-    //   lyrics: req.body.lyrics
-    // });
-    // createNewSong(newSongObj)
     .then((newSongObj) => {
       console.log("createNewSong responded with ", newSongObj)
       res.status(200).send(newSongObj);

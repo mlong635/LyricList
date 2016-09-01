@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import { createSong, saveUserProfile } from '../actions/actions';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
+let user_id = null;
 
 class SongsNew extends Component {
 
@@ -12,6 +13,7 @@ class SongsNew extends Component {
     .then(result => {
       console.log("songs_new componentWillMount result", result);
       console.log("retrieved", result.payload.data);
+      user_id = result.payload.data.userProfile._id;
       this.setState({ userProfile: result.payload.data.userProfile })
     })
   }
@@ -24,16 +26,24 @@ class SongsNew extends Component {
     })
   }
 
+  // onClick(){
+  //   console.log("onClick this.state", this.state);
+  //   browserHistory.push('/user/' + this.state.userProfile._id);
+  // }
+
   render(){
     const { fields: { title, notes, lyrics }, handleSubmit } = this.props;
     //to see all of the native methods console.log("title", title);
     console.log("songs_new render() this.props ", this.props);
     console.log("songs_new render() this.state ", this.state);
 
+    var userProfile = this.state!==null ? this.state.userProfile : undefined;
+    var linkBack = userProfile ? '/user/'+userProfile._id : '/user/';
+
     return (
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
         <h3>Create a New Song</h3>
-        <Link to="/" className="text-xs-right">Back to Your Song List</Link>
+        <Link to={linkBack} className="text-xs-right">Back to Your Song List</Link>
 
         <div className={`form-group ${title.touched && title.invalid ? 'has-danger' : ''}`}>
           <label>Title</label>
@@ -57,8 +67,8 @@ class SongsNew extends Component {
         </div>
 
         <button id="yolo" type="submit" className="btn btn-primary">Save this Song</button>
-        <Link to="/" className="btn btn-danger">Discard</Link><br></br><br></br>
-        <Link to="/" className="btn btn-primary">Back to Your Song List</Link>
+        <Link to={linkBack} className="btn btn-danger">Discard</Link><br></br><br></br>
+        <Link to={linkBack} className="btn btn-primary">Back to Your Song List</Link>
       </form>
     );
   }

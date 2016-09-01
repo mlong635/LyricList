@@ -18,7 +18,7 @@ export default (
     <Route path="/songs/new" component={SongsNew} />
     <Route path="/songs/:id" component={SongsShow} />
     <Route path="/songs/edit/:id" component={SongsEdit} />
-    <Route path="/user/:id" component={UserSongsIndex} />
+    <Route path="/user/*" component={UserSongsIndex} />
   </Route>
 );
 
