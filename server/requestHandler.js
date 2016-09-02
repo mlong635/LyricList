@@ -152,6 +152,7 @@ module.exports = (app) => {
     return new Promise ((resolve, reject) => {
       let userProfile = req.body.userProfile;
       let deleteSong = req.body.deleteSong;
+      console.log('reqHandler /database/deletesong about to delete ', deleteSong, ' from ', userProfile);
       let allSongs = userProfile.songs.slice();
       for(let i=0; i<allSongs.length; i++){
         if(allSongs[i].title===deleteSong){
@@ -159,7 +160,6 @@ module.exports = (app) => {
           break;
         }
       }
-
       UserProfile.findOneAndUpdate(
         { _id: userProfile._id },
         { $set: {

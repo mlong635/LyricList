@@ -29,19 +29,15 @@ class SongsShow extends Component {
   onDeleteClick() {
     return new Promise ((resolve, reject) => {
       let userSure = confirm("Delete "+this.props.params.title+"?  Are you sure?  \n\nWARNING: This is permanent!");
-      if(userSure){
-        resolve();
-      }
-      else { reject(); }
+      userSure ? resolve() : reject();
     })
     .then( () => {
-      console.log('still getting in here for some reason')
       this.props.deleteSong({ userProfile: this.state.userProfile, deleteSong: this.props.params.title})
     })
     .then( () => {
-      console.log("going back back to Cali Cali");
       browserHistory.push('/user/'+this.state.userProfile._id)
-    });
+    })
+    .catch( error => console.log("onDeleteClick promise chain error", error));
   }
 
   render() {
@@ -71,3 +67,4 @@ function mapStateToProps(state){
 }
 
 export default connect(mapStateToProps, { saveUserProfile, fetchOneSong, deleteSong, editSong })(SongsShow);
+

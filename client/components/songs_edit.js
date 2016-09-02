@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
-import { createSong, editSong, saveUserProfile } from '../actions/actions';
-import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { createSong, editSong, saveUserProfile, deleteSong } from '../actions/actions';
+import { Link, browserHistory } from 'react-router';
 let thisSong = null;
 
 class SongsEdit extends Component {
@@ -27,6 +29,21 @@ class SongsEdit extends Component {
     })
   }
 
+  onDeleteClick() {
+    return new Promise ((resolve, reject) => {
+      let userSure = confirm("Delete "+this.state.thisSong+"?  Are you sure?  \n\nWARNING: This is permanent!");
+      userSure ? resolve() : reject();
+    })
+    .then( () => {
+      this.props.deleteSong({ userProfile: this.state.userProfile, deleteSong: this.state.thisSong.title})
+    })
+    .then( () => {
+      console.log("making it this far ", this.state.userProfile._id);
+      browserHistory.push('/user/'+this.state.userProfile._id)
+    })
+    .catch( error => console.log("onDeleteClick promise chain error", error));
+  }
+
   render(){
     if(!this.state) return <div>Loading...</div>;
 
@@ -40,6 +57,7 @@ class SongsEdit extends Component {
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
         <h3>Edit Song</h3>
         <Link to={linkBack} className="text-xs-right">Back to Your Song List</Link>
+        <button className="btn btn-danger pull-xs-right" onClick={this.onDeleteClick.bind(this)}>Delete Song</button>
 
         <div className={`form-group ${title.touched && title.invalid ? 'has-danger' : ''}`}>
           <label>Title</label>
@@ -83,12 +101,33 @@ function validate(values) {
   return errors;
 }
 
+function mapStateToProps(state){
+  return { userProfile: state.userProfile, thisSong: state.thisSong };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ createSong, editSong, saveUserProfile, deleteSong }, dispatch);
+}
+
+// reduxForm: 1st is form config, 2nd is mapStateToProps, 3rd is mapDispatchToProps
+
 export default reduxForm({
-  form: 'SongsNew',
+  form: 'SongsEdit',
   fields: ['title', 'notes', 'lyrics'],
   validate
-}, null, { createSong, editSong, saveUserProfile })(SongsEdit);
+}, mapStateToProps, mapDispatchToProps)(SongsEdit);
 
+////// old code below
+
+// export default reduxForm({
+//   form: 'SongsNew',
+//   fields: ['title', 'notes', 'lyrics'],
+//   validate
+// }, null, { createSong, editSong, saveUserProfile })(SongsEdit);
+
+
+// connect: first argument is mapStateToProps, 2nd is mapDispatchToProps
+// export default connect(mapStateToProps, mapDispatchToProps)(SongsEdit);
 
 
 
