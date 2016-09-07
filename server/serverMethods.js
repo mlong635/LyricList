@@ -1,6 +1,6 @@
 const Song = require('../db/songSchema');
 const User = require('../db/userSchema');
-const UserProfile = require('../db/UserProfileSchema');
+const UserProfile = require('../db/userProfileSchema');
 
 
 module.exports.createUserProfile = (newUserObj) => {
