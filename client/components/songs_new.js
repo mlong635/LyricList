@@ -60,7 +60,7 @@ class SongsNew extends Component {
 
         <div className={`form-group ${lyrics.touched && lyrics.invalid ? 'has-danger' : ''}`}>
           <label>Lyrics</label>
-          <textarea className="form-control" {...lyrics}/>
+          <textarea className="form-control" rows="10" {...lyrics}/>
           <div className="text-help">
             {lyrics.touched ? lyrics.error : ''}
           </div>

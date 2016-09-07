@@ -5,11 +5,46 @@ const mongoose = require('mongoose');
 const Song = require('../db/songSchema');
 const User = require('../db/userSchema');
 const UserProfile = require('../db/userProfileSchema');
+const nodemailer = require('nodemailer');
 let savedUserProfile = () => 'No saved user';
+let secretKeys = null;
+if (!process.env.NODEMAILER_URI) {
+  secretKeys = require('../env/config');
+}
 
 const { createNewSong, createNewUser, createUserProfile } = require('./serverMethods');
 
 module.exports = (app) => {
+
+  app.post('/server/sendEmail', (req, res) => {
+    return new Promise ((resolve, reject) => {
+      let emailPassword = process.env.NODEMAILER_URI ? process.env.NODEMAILER_URI : secretKeys.NODEMAILER_URI;
+
+      // create reusable transporter object using the default SMTP transport      
+      let transporter = nodemailer.createTransport(emailPassword);
+
+      // emailInfo = {sender: this.state.userProfile.username, email: targetEmail, body: this.state.thisSong.lyrics};
+
+      var mailOptions = {
+          from: '"LyricList Support" <LyricListService@gmail.com>', // sender address
+          to: req.body.email, // list of receivers
+          subject: req.body.sender + ' sent you a song from LyricList', // Subject line
+          // text: req.body.body, // plaintext body
+          html: req.body.body // html body
+      };
+      let targetEmail = req.body.body
+
+      // send mail with defined transport object
+      transporter.sendMail(mailOptions, function(error, info){
+          if(error){
+            return console.log("nodeMailer transporter.sendMail() error", error);
+          }
+          res.status(200).send(targetEmail);
+          resolve(targetEmail);
+      });
+    });
+
+  })
 
   app.post('/database/saveUserProfile', (req, res) => {
     console.log('&&&&&&&&&& requestHandler database/saveUserProfile req.body', req.body);

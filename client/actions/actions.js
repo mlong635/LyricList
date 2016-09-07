@@ -11,6 +11,17 @@ export const EDIT_SONG = 'EDIT_SONG';
 export const SUBMIT_LOGIN = 'SUBMIT_LOGIN';
 export const SUBMIT_CREATE_ACCOUNT = 'SUBMIT_CREATE_ACCOUNT';
 export const SAVE_USER_PROFILE = 'SAVE_USER_PROFILE';
+export const SEND_EMAIL = 'SEND_EMAIL';
+
+export function sendEmail (emailInfo){
+  const url = '/server/sendEmail';
+  const request = axios.post(url, emailInfo);
+
+  return {
+    type: SEND_EMAIL,
+    payload: request
+  }
+}
 
 export function saveUserProfile(userProfile){
   const url = '/database/saveUserProfile';
