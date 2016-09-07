@@ -56,6 +56,17 @@ class SongsShow extends Component {
     .catch( error => console.log("onDeleteClick promise chain error", error));
   }
 
+  renderLyrics(){
+    var thisSong = this.state!==null ? this.state.thisSong : undefined;    
+    if(thisSong){
+      return thisSong.lyrics.split('\n').map((line) => {
+        return (
+          <li className="list-group-item">{line}</li>
+        );
+      });
+    }
+  }
+
   render() {
     
 
@@ -70,9 +81,11 @@ class SongsShow extends Component {
         <Link to={linkBack}>Back to Your Song List</Link>
         <button className="btn btn-danger pull-xs-right" onClick={this.onDeleteClick.bind(this)}>Delete Song</button>
         <button className="btn btn-primary pull-xs-right" onClick={this.onEditClick.bind(this)}>Edit Song</button>
-        <h3>{thisSong.title}</h3>
+        <h3>Title: {thisSong.title}</h3>
         <h6>Notes: {thisSong.notes}</h6>
-        <p>{thisSong.lyrics}</p>
+        <ul className="list-group">
+          {this.renderLyrics()}
+        </ul>
         <button className="btn btn-primary" onClick={this.onEmailClick.bind(this)}>Send these Lyrics in an Email</button>
       </div>
     );
