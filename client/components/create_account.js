@@ -11,8 +11,10 @@ class CreateAccount extends Component {
     // this.props.submitCreateAccount(props)
     this.props.createUserProfile(props)
 
-    .then((args) => {
-      console.log(args);
+    .then(() => {
+      alert("Your account has been created, "+ props.username +"! Please login with your new username and password!");
+    })
+    .then(() => {
       // redirect to index
       browserHistory.push('/')
     })
