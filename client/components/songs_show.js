@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchOneSong, deleteSong, editSong, saveUserProfile } from '../actions/actions';
+import { fetchOneSong, deleteSong, editSong, saveUserProfile, sendEmail } from '../actions/actions';
 import { Link, browserHistory } from 'react-router';
 let thisSong = null;
 
@@ -24,6 +24,22 @@ class SongsShow extends Component {
 
   onEditClick() {
     browserHistory.push('/songs/edit/'+this.props.params.title)
+  }
+
+  onEmailClick() {
+    return new Promise ((resolve, reject) => {
+      let targetEmail = prompt("What email address would you like this sent to?");
+      targetEmail ? resolve(targetEmail) : reject("Invalid Email entered")
+    })
+    .then((targetEmail) => {
+      let emailInfo = {sender: this.state.userProfile.username, email: targetEmail, body: this.state.thisSong.lyrics};
+      this.props.sendEmail(emailInfo);
+    })
+    .then((targetEmail) => {
+      // console.log("just received targetEmail", targetEmail);
+      alert("Your song has been sent!");
+    })
+    .catch( error => console.log("onEmailClick promise chain error", error));
   }
 
   onDeleteClick() {
@@ -57,6 +73,7 @@ class SongsShow extends Component {
         <h3>{thisSong.title}</h3>
         <h6>Notes: {thisSong.notes}</h6>
         <p>{thisSong.lyrics}</p>
+        <button className="btn btn-primary" onClick={this.onEmailClick.bind(this)}>Send these Lyrics in an Email</button>
       </div>
     );
   }
@@ -66,5 +83,5 @@ function mapStateToProps(state){
   return { userProfile: state.userProfile, thisSong: state.thisSong };
 }
 
-export default connect(mapStateToProps, { saveUserProfile, fetchOneSong, deleteSong, editSong })(SongsShow);
+export default connect(mapStateToProps, { saveUserProfile, fetchOneSong, deleteSong, editSong, sendEmail })(SongsShow);
 
