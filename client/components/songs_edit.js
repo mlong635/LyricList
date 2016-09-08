@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { createSong, editSong, saveUserProfile, deleteSong } from '../actions/actions';
+import { updateSong, editSong, saveUserProfile, deleteSong } from '../actions/actions';
 import { Link, browserHistory } from 'react-router';
 let thisSong = null;
 
@@ -23,7 +23,8 @@ class SongsEdit extends Component {
   }
 
   onSubmit(props) {
-    this.props.createSong(props)
+    let songInfo = { userProfile: this.state.userProfile, newSong: props }
+    this.props.updateSong(songInfo)
     .then(() => {
       alert('Song successfully saved!');
     })
@@ -44,6 +45,24 @@ class SongsEdit extends Component {
     .catch( error => console.log("onDeleteClick promise chain error", error));
   }
 
+  handleTitleChange(event){
+    let newSongState = this.state.thisSong;
+    newSongState.title = event.target.value;
+    this.setState({ thisSong: newSongState });
+  }
+
+  handleNotesChange(event){
+    let newSongState = this.state.thisSong;
+    newSongState.notes = event.target.value;
+    this.setState({ thisSong: newSongState });
+  }
+
+  handleLyricChange(event){
+    let newSongState = this.state.thisSong;
+    newSongState.lyrics = event.target.value;
+    this.setState({ thisSong: newSongState });
+  }
+
   render(){
     if(!this.state) return <div>Loading...</div>;
 
@@ -61,7 +80,7 @@ class SongsEdit extends Component {
 
         <div className={`form-group ${title.touched && title.invalid ? 'has-danger' : ''}`}>
           <label>Title</label>
-          <input type="text" className="form-control" {...title} value={thisSong.title} />
+          <input type="text" className="form-control" {...title} value={thisSong.title} onChange={this.handleTitleChange.bind(this)}/>
           <div className="text-help">
             {title.touched ? title.error : ''}
           </div>
@@ -69,12 +88,12 @@ class SongsEdit extends Component {
 
         <div className="form-group">
           <label>Notes (optional) </label>
-          <input type="text" placeholder="e.g. 'Slow Blues key of E'" className="form-control" {...notes} value={thisSong.notes}/>
+          <input type="text" placeholder="e.g. 'Slow Blues key of E'" className="form-control" {...notes} value={thisSong.notes} onChange={this.handleNotesChange.bind(this)}/>
         </div>
 
         <div className={`form-group ${lyrics.touched && lyrics.invalid ? 'has-danger' : ''}`}>
           <label>Lyrics</label>
-          <textarea className="form-control" rows="10" {...lyrics} value={thisSong.lyrics}/>
+          <textarea className="form-control" rows="10" {...lyrics} value={thisSong.lyrics} onChange={this.handleLyricChange.bind(this)}/>
           <div className="text-help">
             {lyrics.touched ? lyrics.error : ''}
           </div>
@@ -106,7 +125,7 @@ function mapStateToProps(state){
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ createSong, editSong, saveUserProfile, deleteSong }, dispatch);
+  return bindActionCreators({ updateSong, editSong, saveUserProfile, deleteSong }, dispatch);
 }
 
 // reduxForm: 1st is form config, 2nd is mapStateToProps, 3rd is mapDispatchToProps
@@ -114,7 +133,7 @@ function mapDispatchToProps(dispatch) {
 export default reduxForm({
   form: 'SongsEdit',
   fields: ['title', 'notes', 'lyrics'],
-  validate
+  // validate
 }, mapStateToProps, mapDispatchToProps)(SongsEdit);
 
 ////// old code below
@@ -122,8 +141,9 @@ export default reduxForm({
 // export default reduxForm({
 //   form: 'SongsNew',
 //   fields: ['title', 'notes', 'lyrics'],
-//   validate
-// }, null, { createSong, editSong, saveUserProfile })(SongsEdit);
+//   validate,
+//   mapStateToProps
+// }, null, { updateSong, editSong, saveUserProfile, deleteSong })(SongsEdit);
 
 
 // connect: first argument is mapStateToProps, 2nd is mapDispatchToProps

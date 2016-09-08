@@ -7,7 +7,7 @@ export const FETCH_SONGS = 'FETCH_SONGS';
 export const CREATE_SONG = 'CREATE_SONG';
 export const FETCH_SONG = 'FETCH_SONG';
 export const DELETE_SONG = 'DELETE_SONG';
-export const EDIT_SONG = 'EDIT_SONG';
+export const UPDATE_SONG = 'UPDATE_SONG';
 export const SUBMIT_LOGIN = 'SUBMIT_LOGIN';
 export const SUBMIT_CREATE_ACCOUNT = 'SUBMIT_CREATE_ACCOUNT';
 export const SAVE_USER_PROFILE = 'SAVE_USER_PROFILE';
@@ -64,7 +64,7 @@ export function fetchSongs(){
 }
 
 export function createSong(songInfo){
-  console.log("actions.js createSong props", songInfo);
+  // console.log("actions.js createSong props", songInfo);
 
   const url = '/database/createSong';
   const request = axios.post(url, songInfo);
@@ -85,12 +85,12 @@ export function fetchOneSong(id) {
   }
 }
 
-export function editSong(id) {
-  const url = '/database/editSong';
-  const request = axios.get(url, id);
+export function updateSong(songInfo) {
+  const url = '/database/updateSong';
+  const request = axios.post(url, songInfo);
 
   return {
-    type: EDIT_SONG,
+    type: UPDATE_SONG,
     payload: request
   }
 }
