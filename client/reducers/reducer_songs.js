@@ -1,4 +1,4 @@
-import { FETCH_SONGS, FETCH_SONG, EDIT_SONG, SUBMIT_LOGIN, FETCH_USER_PROFILE, SAVE_USER_PROFILE } from '../actions/actions';
+import { FETCH_SONGS, FETCH_SONG, UPDATE_SONG, SUBMIT_LOGIN, FETCH_USER_PROFILE, SAVE_USER_PROFILE } from '../actions/actions';
 
 // const INITIAL_STATE = { username: null, songs: [] };
 const INITIAL_STATE = { userProfile: null };

@@ -2,8 +2,8 @@
 
 const db = require('../db/dbConfig');
 const mongoose = require('mongoose');
-const Song = require('../db/songSchema');
-const User = require('../db/userSchema');
+// const Song = require('../db/songSchema');
+// const User = require('../db/userSchema');
 const UserProfile = require('../db/userProfileSchema');
 const nodemailer = require('nodemailer');
 let savedUserProfile = () => 'No saved user';
@@ -12,7 +12,7 @@ if (!process.env.NODEMAILER_URI) {
   secretKeys = require('../env/config');
 }
 
-const { createNewSong, createNewUser, createUserProfile } = require('./serverMethods');
+const { createNewSong, createNewUser, createUserProfile, updateSong } = require('./serverMethods');
 
 module.exports = (app) => {
 
@@ -163,6 +163,28 @@ module.exports = (app) => {
     });
   });
 
+  app.post('/database/updateSong', (req, res) => {
+    console.log("request handler database/updateSong just rec'd ", req.body); 
+    let songInfo = req.body;
+    updateSong(songInfo)
+    .then((updatedSongObj) => {
+      console.log("updateSong responded with ", updatedSongObj)
+      res.status(200).send(updatedSongObj);
+    })
+    .catch( (err) => {
+      console.log("requestHandler /database/updateSong error", err);
+      res.status(400).send(err)
+    });
+    // return new Promise ((resolve, reject) => {
+    //   let _id = req.headers.referer.split('/').pop();
+    //   console.log("requestHandler database/updateSong id $$$$$$", _id);
+    //   Song.findOne({ _id }, (err, song) => {
+    //     res.status(200).send(song);
+    //     resolve(song);
+    //   })
+    // })
+  })
+
   app.get('/database/fetchOneSong', (req, res) => {
     let _id = req.headers.referer.split('/').pop();
     console.log("requestHandler database/fetchOneSong id $$$$$$", _id);
@@ -171,17 +193,6 @@ module.exports = (app) => {
       res.status(200).send(song)
     })
   });
-
-  app.get('/database/editSong', (req, res) => {
-    return new Promise ((resolve, reject) => {
-      let _id = req.headers.referer.split('/').pop();
-      console.log("requestHandler database/editSong id $$$$$$", _id);
-      Song.findOne({ _id }, (err, song) => {
-        res.status(200).send(song);
-        resolve(song);
-      })
-    })
-  })
 
   app.post('/database/deleteSong', (req, res) => {
     return new Promise ((resolve, reject) => {

@@ -49,8 +49,10 @@ class UserSongsIndex extends Component {
           return (
             <li className="list-group-item" key={song.title}>
               <Link to={"songs/" + song.title}>
-              <span className="pull-xs-right">{song.notes}</span>
-              <strong>{song.title}</strong>
+              <span className="pull-xs-right">Notes: {song.notes}</span>
+              <strong>{song.title}</strong>&nbsp;&nbsp;&nbsp;&nbsp;
+              Date Created: {song.dateCreated}&nbsp;&nbsp;&nbsp;&nbsp;
+              Last Updated: {song.lastUpdated}&nbsp;&nbsp;&nbsp;&nbsp;
               </Link>
             </li>
           );

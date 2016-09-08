@@ -83,6 +83,9 @@ class SongsShow extends Component {
         <button className="btn btn-primary pull-xs-right" onClick={this.onEditClick.bind(this)}>Edit Song</button>
         <h3>Title: {thisSong.title}</h3>
         <h6>Notes: {thisSong.notes}</h6>
+        <h6>Date Created: {thisSong.dateCreated}</h6>
+        <h6>Last Updated: {thisSong.lastUpdated}</h6>
+
         <ul className="list-group">
           {this.renderLyrics()}
         </ul>
