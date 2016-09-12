@@ -54,7 +54,7 @@ class Login extends Component {
             </div>
           </div>
 
-          <button type="submit" className="btn btn-primary">Submit</button>
+          <button type="submit" className="btn btn-primary">Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;
           <Link to="/createaccount" className="btn btn-primary">Create an Account</Link>
           <p></p>
           <h4>- OR -</h4><p></p><p></p>

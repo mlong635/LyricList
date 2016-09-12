@@ -43,7 +43,7 @@ class CreateAccount extends Component {
             </div>
           </div>
 
-          <button type="submit" className="btn btn-primary">Submit Username and Password</button>
+          <button type="submit" className="btn btn-primary">Submit Username and Password</button>&nbsp;&nbsp;&nbsp;&nbsp;
           <Link to="/login" className="btn btn-primary">Already Have an Account?</Link>
             <p></p>
             <h4>- OR -</h4><p></p><p></p>
