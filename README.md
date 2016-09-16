@@ -12,11 +12,11 @@ Need someone to review your lyrics?  Or perhaps send them to a loved one?  You c
 
 ## Tech Stack
 
-Front End – React/Redux
-Back End – Node.js (NodeMailer npm package for emails)
-Database – MongoDB / Mongoose
-Deployment - Heroku 
-Module Bundler - Webpack
+ * Front End – React/Redux
+ * Back End – Node.js (NodeMailer npm package for emails)
+ * Database – MongoDB / Mongoose
+ * Deployment - Heroku 
+ * Module Bundler - Webpack
 
 ## Developer
 
